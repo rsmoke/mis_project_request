@@ -1,5 +1,30 @@
 $(function () {
-  input_counter('short_description');
+  if ($( 'body' ).has($('#short_description'))) {
+    input_counter('short_description');
+  }
+
+  $('#contact_uniqname').blur( function(e){
+    var get_uniq = $('#contact_uniqname').val();
+    $.post("ldapglean.php", {lookup_uniq: get_uniq })
+    .done(function( data ) {
+      var json = $.parseJSON( data );
+      if ( json[0] == "empty"){
+
+        // alert ("Enter a valid uniqname");
+        $('#contact_uniqname').val("Enter a valid uniqname");
+        $('#contact_first_name').val("");
+        $('#contact_last_name').val("");
+        $('#contact_email').val("");
+        $('#contact_department').val("");
+        $('#contact_uniqname').focus();
+      } else {
+        $('#contact_first_name').val(json.first_name);
+        $('#contact_last_name').val(json.last_name);
+        $('#contact_email').val(get_uniq + "@umich.edu");
+        $('#contact_department').val(json.department);
+      }
+    });
+  });
 
 });
 

@@ -132,6 +132,16 @@ footer #regents {
     padding-left: 24px;
 }
 
+#submitter_block {
+    color: #ccc;
+    background-color: #00274c;
+    padding: 10px;
+    border-style: ridge;
+    border-radius: 5px;
+    border-color: #000;
+    border-width: 2px;
+}
+
 
 
 

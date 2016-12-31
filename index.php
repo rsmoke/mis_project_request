@@ -72,10 +72,15 @@ require_once($_SERVER["DOCUMENT_ROOT"] . '/../Support/basicLib.php');
                 <div class="col-md-8 col-md-offset-2 jumbotron">
 
                     <?php if(isset($_POST['submit'])){
-                        $to = "um_ricks+y5etdqhaxsehaxxbsx9r@boards.trello.com"; // this is your Email address
+                        $to = "rhsmoke@gmail.com"; // this is your Email address
                         $from = htmlspecialchars($_POST['email']); // this is the sender's Email address
                         $first_name = htmlspecialchars($_POST['first_name']);
                         $last_name = htmlspecialchars($_POST['last_name']);
+                        $contact_uniqname =
+                        $contact_first_name = htmlspecialchars($_POST['contact_first_name']);
+                        $contact_last_name = htmlspecialchars($_POST['contact_last_name']);
+                        $contact_email = htmlspecialchars($_POST['contact_email']);
+                        $contact_department = htmlspecialchars($_POST['contact_department']);
                         $short_description = htmlspecialchars($_POST['short_description']);
                         $full_description = htmlspecialchars($_POST['full_description']);
                         $priority = htmlspecialchars($_POST['priority']);
@@ -116,7 +121,7 @@ _SQL;
                         if( false === $stmt ) {
                             db_fatal_error('prepare() failed: ', htmlspecialchars($db->error), $stmt);
                         }
-                        $rc = $stmt->bind_param("sssssss", $login_name, $first_name, $last_name, $from, $contact_uniqname, $contact_first_name, $contact_last_name, $contact_email, $contact_department, $priority, $full_description, $short_description);
+                        $rc = $stmt->bind_param("ssssssssssss", $login_name, $first_name, $last_name, $from, $contact_uniqname, $contact_first_name, $contact_last_name, $contact_email, $contact_department, $priority, $full_description, $short_description);
                         if ( false===$rc ) {
                             // again execute() is useless if you can't bind the parameters. Bail out somehow.
                             db_fatal_error('bind_param() failed: ',htmlspecialchars($stmt->error), $stmt);
@@ -135,7 +140,7 @@ _SQL;
                         $login_name = $first_name = $last_name = $priority = $from = $full_description = $short_description = null;
                         $contact_uniqname = $contact_first_name = $contact_last_name = $contact_email = $contact_department = null;
 
-                        echo "<a class='btn btn-info' href='https://webapps.lsa.umich.edu/english/secure/userservices/profile.asp'>Return to UofM English Department</a>";
+                        echo "<a class='btn btn-info' href='https://webapps.lsa.umich.edu/admindata'>Return to MIS admin page</a>";
                         // You can also use header('Location: thank_you.php'); to redirect to another page.
                         unset($_POST['submit']);
                     } else {
@@ -144,13 +149,17 @@ _SQL;
                         <h4 class='text-primary'>Include existing webpages or other resources associated with this request in the <em>Detailed Description</em> box below.</h4>
                         <small>If you would like to be contacted please specify that in your message.</small>
                         <?php $submitter_username = ldapGleaner($login_name);?>
-                        <h5>Uniqname: <?php echo $login_name ?></h5>
-                        <h5>First Name: <?php echo $submitter_username[0] ?></h5>
-                        <h5>Last Name: <?php echo $submitter_username[1] ?></h5>
-                        <h5>Email: <?php echo $login_name ?>@umich.edu></h5>
-                        <h5>Department: <?php echo $contact_department ?></h5>
+                        <h5>Submitter Details</h5>
+                        <div id="submitter_block">
+                        <h6>Uniqname: <?php echo $login_name ?></h6>
+                        <h6>First Name: <?php echo $submitter_username[0] ?></h6>
+                        <h6>Last Name: <?php echo $submitter_username[1] ?></h6>
+                        <h6>Email: <?php echo $login_name ?>@umich.edu</h6>
+                        <h6>Department: <?php echo $submitter_username[2] ?></h6>
+                        </div>
 
                         <?php $contact_username = ldapGleaner($login_name);?>
+                        <h5>Project Contact</h5>
 
                         <form role="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" >
                             <input type="hidden" name="first_name" value="<?php echo $submitter_username[0] ?>">
@@ -158,16 +167,19 @@ _SQL;
                             <input type="hidden" name="email" value="<?php echo $login_name ?>@umich.edu">
 
                             <div class="form-group">
-                                <label for="first_name">First Name:</label><input required type="text" class="form-control" name="first_name" value="<?php echo $contact_username[0] ?>">
+                                <label for="contact_uniqname">uniqname:</label><input id="contact_uniqname" required type="text" class="form-control" name="contact_uniqname" value="<?php echo $login_name ?>">
                             </div>
                             <div class="form-group">
-                                <label for="last_name">Last Name:</label><input required type="text" class="form-control" name="last_name" value="<?php echo $contact_username[1] ?>">
+                                <label for="contact_first_name">First Name:</label><input id="contact_first_name" required type="text" class="form-control" name="contact_first_name" value="<?php echo $contact_username[0] ?>">
                             </div>
                             <div class="form-group">
-                                <label for="email">Email:</label><input required type="email" class="form-control" name="email" value="<?php echo $login_name ?>@umich.edu">
+                                <label for="contact_last_name">Last Name:</label><input id="contact_last_name" required type="text" class="form-control" name="contact_last_name" value="<?php echo $contact_username[1] ?>">
                             </div>
                             <div class="form-group">
-                                <label for="department">Department:</label><input required type="text" class="form-control" name="contact_department" value="<?php echo $contact_department ?>">
+                                <label for="contact_email">Email:</label><input id="contact_email" required type="email" class="form-control" name="contact_email" value="<?php echo $login_name ?>@umich.edu">
+                            </div>
+                            <div class="form-group">
+                                <label for="contact_department">Department:</label><input id="contact_department" required type="text" class="form-control" name="contact_department" value="<?php echo $contact_username[2] ?>">
                             </div>
                             <div class="form-group">
                                 <label for="short_description">Short Description:</label><input required type="text" class="form-control" id="short_description" name="short_description">
