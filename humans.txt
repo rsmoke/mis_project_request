@@ -1,0 +1,15 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Rick Smoke -- The butcher, the baker, the candlestick-maker -- @UMrsmoke - rsmoke@umich.edu
+
+# THANKS
+
+    To all the friendly people who make the earth fun to be on.
+
+# TECHNOLOGY COLOPHON
+
+    CSS3, HTML5
+    Apache Server Configs, jQuery, Modernizr, Normalize.css
