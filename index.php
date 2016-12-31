@@ -1,5 +1,5 @@
 <?php
-require_once($_SERVER["DOCUMENT_ROOT"] . '/../Support/configProjectRequest.php');
+require_once($_SERVER["DOCUMENT_ROOT"] . '/../Support/configMISProjectRequest.php');
 require_once($_SERVER["DOCUMENT_ROOT"] . '/../Support/basicLib.php');
 
 ?>
@@ -89,29 +89,34 @@ require_once($_SERVER["DOCUMENT_ROOT"] . '/../Support/basicLib.php');
                         $headers = "From:" . $from;
                         $headers2 = "From:" . $to;
                         mail($to,$subject,$message,$headers);
-                        mail($from,$subject2,$message2, "From:engprojectrequest@umich.edu"); // sends a copy of the message to the sender
+                        mail($from,$subject2,$message2, "From:lsamisprojectrequest@umich.edu"); // sends a copy of the message to the sender
                         echo "<h4>Mail Sent.</h4> <p>Thank you " . $first_name . " for sending your project request! We’ve sent you a copy of this message at the email address you provided.<br>
 Have a great day!</p>";
 
                         // prepare and bind
                         $sqlInsert = <<<_SQL
     INSERT INTO `responses`
-    (`login_name`,
-    `first_name`,
-    `last_name`,
+    (`submitter_uniqname`,
+    `submitter_first_name`,
+    `submitter_last_name`,
+    `submitter_email`,
+    `contact_uniqname`,
+    `contact_first_name`,
+    `contact_last_name`,
+    `contact_email`,
+    `contact_department`,
     `priority`,
-    `email`,
     `full_description`,
     `short_description`)
     VALUES
-    (?,?,?,?,?,?,?);
+    (?,?,?,?,?,?,?,?,?,?,?,?);
 _SQL;
 
                         $stmt = $db->prepare($sqlInsert);
                         if( false === $stmt ) {
                             db_fatal_error('prepare() failed: ', htmlspecialchars($db->error), $stmt);
                         }
-                        $rc = $stmt->bind_param("sssssss", $login_name, $first_name, $last_name, $priority, $from, $full_description, $short_description);
+                        $rc = $stmt->bind_param("sssssss", $login_name, $first_name, $last_name, $from, $contact_uniqname, $contact_first_name, $contact_last_name, $contact_email, $contact_department, $priority, $full_description, $short_description);
                         if ( false===$rc ) {
                             // again execute() is useless if you can't bind the parameters. Bail out somehow.
                             db_fatal_error('bind_param() failed: ',htmlspecialchars($stmt->error), $stmt);
@@ -128,6 +133,7 @@ _SQL;
                         $stmt->close();
 
                         $login_name = $first_name = $last_name = $priority = $from = $full_description = $short_description = null;
+                        $contact_uniqname = $contact_first_name = $contact_last_name = $contact_email = $contact_department = null;
 
                         echo "<a class='btn btn-info' href='https://webapps.lsa.umich.edu/english/secure/userservices/profile.asp'>Return to UofM English Department</a>";
                         // You can also use header('Location: thank_you.php'); to redirect to another page.
@@ -140,6 +146,7 @@ _SQL;
                         <h5>Your Uniqname: <?php echo $login_name ?></h5>
                         <?php $username = ldapGleaner($login_name);?>
                         <form role="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" >
+
                             <div class="form-group">
                                 <label for="first_name">First Name:</label><input required type="text" class="form-control" name="first_name" value="<?php echo $username[0] ?>">
                             </div>
