@@ -143,18 +143,31 @@ _SQL;
                         <h3>Fill out and submit this form for website or stand alone project requests</h3>
                         <h4 class='text-primary'>Include existing webpages or other resources associated with this request in the <em>Detailed Description</em> box below.</h4>
                         <small>If you would like to be contacted please specify that in your message.</small>
-                        <h5>Your Uniqname: <?php echo $login_name ?></h5>
-                        <?php $username = ldapGleaner($login_name);?>
+                        <?php $submitter_username = ldapGleaner($login_name);?>
+                        <h5>Uniqname: <?php echo $login_name ?></h5>
+                        <h5>First Name: <?php echo $submitter_username[0] ?></h5>
+                        <h5>Last Name: <?php echo $submitter_username[1] ?></h5>
+                        <h5>Email: <?php echo $login_name ?>@umich.edu></h5>
+                        <h5>Department: <?php echo $contact_department ?></h5>
+
+                        <?php $contact_username = ldapGleaner($login_name);?>
+
                         <form role="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" >
+                            <input type="hidden" name="first_name" value="<?php echo $submitter_username[0] ?>">
+                            <input type="hidden" name="last_name" value="<?php echo $submitter_username[1] ?>">
+                            <input type="hidden" name="email" value="<?php echo $login_name ?>@umich.edu">
 
                             <div class="form-group">
-                                <label for="first_name">First Name:</label><input required type="text" class="form-control" name="first_name" value="<?php echo $username[0] ?>">
+                                <label for="first_name">First Name:</label><input required type="text" class="form-control" name="first_name" value="<?php echo $contact_username[0] ?>">
                             </div>
                             <div class="form-group">
-                                <label for="last_name">Last Name:</label><input required type="text" class="form-control" name="last_name" value="<?php echo $username[1] ?>">
+                                <label for="last_name">Last Name:</label><input required type="text" class="form-control" name="last_name" value="<?php echo $contact_username[1] ?>">
                             </div>
                             <div class="form-group">
                                 <label for="email">Email:</label><input required type="email" class="form-control" name="email" value="<?php echo $login_name ?>@umich.edu">
+                            </div>
+                            <div class="form-group">
+                                <label for="department">Department:</label><input required type="text" class="form-control" name="contact_department" value="<?php echo $contact_department ?>">
                             </div>
                             <div class="form-group">
                                 <label for="short_description">Short Description:</label><input required type="text" class="form-control" id="short_description" name="short_description">
