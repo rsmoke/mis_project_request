@@ -1,12 +1,12 @@
 <?php
 require_once($_SERVER["DOCUMENT_ROOT"] . '/../Support/basicLib.php');
-$uniqName = $_POST['lookup_uniq'];
+$uniqname = $_POST['lookup_uniq'];
 $ldapDetails = [];
 
 $ds=ldap_connect("ldap.umich.edu");  // must be a valid LDAP server!
 if ($ds) { // this is an "anonymous" bind, typically read-only access
     // Search surname entry
-    $sr=ldap_search($ds, "ou=People,dc=umich,dc=edu", "uid=$uniqName");
+    $sr=ldap_search($ds, "ou=People,dc=umich,dc=edu", "uid=$uniqname");
     $info = ldap_get_entries($ds, $sr);
     if (count($info) > 1 ){
         if (array_key_exists('cn', $info[0])) {
