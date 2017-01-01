@@ -72,7 +72,7 @@ require_once($_SERVER["DOCUMENT_ROOT"] . '/../Support/basicLib.php');
                 <div class="col-md-8 col-md-offset-2 jumbotron">
 
                     <?php if(isset($_POST['submit'])){
-                        $to = "rhsmoke@gmail.com"; // this is your Email address
+                        $to = "ahlgrenl+83pvnknn9nygoezumfop@boards.trello.com"; // this is your Email address
                         $from = htmlspecialchars($_POST['email']); // this is the sender's Email address
                         $first_name = htmlspecialchars($_POST['first_name']);
                         $last_name = htmlspecialchars($_POST['last_name']);
