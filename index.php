@@ -140,7 +140,7 @@ _SQL;
                         $login_name = $first_name = $last_name = $priority = $from = $full_description = $short_description = null;
                         $contact_uniqname = $contact_first_name = $contact_last_name = $contact_email = $contact_department = null;
 
-                        echo "<a class='btn btn-info' href='https://webapps.lsa.umich.edu/admindata'>Return to MIS admin page</a>";
+                        echo "<a class='btn btn-success' href='index.php'>Add Another Request</a>&nbsp;<a class='btn btn-info' href='https://webapps.lsa.umich.edu/admindata'>Return to MIS admin page</a>";
                         // You can also use header('Location: thank_you.php'); to redirect to another page.
                         unset($_POST['submit']);
                     } else {
