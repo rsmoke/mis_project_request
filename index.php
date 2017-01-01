@@ -84,7 +84,7 @@ require_once($_SERVER["DOCUMENT_ROOT"] . '/../Support/basicLib.php');
                         $short_description = htmlspecialchars($_POST['short_description']);
                         $full_description = htmlspecialchars($_POST['full_description']);
                         $priority = htmlspecialchars($_POST['priority']);
-                        $subject = $short_description . " From: " . $first_name . " " . $last_name;
+                        $subject = $short_description . " | From: " . $first_name . " " . $last_name ." | Date: " . date("m/d/Y");
                         $subject2 = "Copy of your Project Request form submission";
                         $messageFooter = "-- Please do not reply to this email. If you requested a reply or more information is required, you will be contacted at the email address you provided. --";
                         $message = "logged in as=> " . $login_name . "\n\nFull Name=> " . $first_name . " " . $last_name . "\n\nemail=> " . $from . "\n\nShort Description=> " . $short_description . "\n\nPriority=> " . $priority .  "\n\nFull Description:" . "\n\n" . $full_description;
