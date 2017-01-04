@@ -1,22 +1,23 @@
 <?php
-require_once($_SERVER["DOCUMENT_ROOT"] . '/../Support/configProjectRequest.php');
+require_once($_SERVER["DOCUMENT_ROOT"] . '/../Support/configMISProjectRequest.php');
 require_once($_SERVER["DOCUMENT_ROOT"] . '/../Support/basicLib.php');
 
 if (isset($_GET['search'])) {
     try {
-        $sql = 'SELECT login_name,first_name,last_name,priority,full_description,short_description,created
+        $sql = 'SELECT submitter_uniqname,submitter_first_name,submitter_last_name, contact_uniqname, contact_first_name, contact_last_name, priority,full_description,short_description,created
                 FROM responses
-                WHERE last_name LIKE ? AND short_description LIKE ?
-                ORDER BY created DESC, last_name';
+                WHERE submitter_last_name LIKE ? AND short_description LIKE ? AND contact_last_name LIKE ?
+                ORDER BY created DESC, contact_last_name';
         $stmt = $db->stmt_init();
         if (!$stmt->prepare($sql)) {
             $error = $stmt->error;
         } else {
-            $stmt->bind_param('ss', $last_name, $short_description);
-            $last_name = '%' . $_GET['last_name'] . '%';
+            $stmt->bind_param('sss', $last_name, $short_description, $contact_last_name);
+            $last_name = '%' . $_GET['submitter_last_name'] . '%';
+            $contact_last_name = '%' . $_GET['contact_last_name'] . '%';
             $short_description = '%' . $_GET['short_description'] . '%';
             $stmt->execute();
-            $stmt->bind_result($uniqname, $first_name, $last_name, $priority, $full_description, $short_description, $date_entered);
+            $stmt->bind_result($uniqname, $first_name, $last_name, $contact_uniqname, $contact_first_name, $contact_last_name, $priority, $full_description, $short_description, $date_entered);
         }
     } catch (Exception $e) {
         $error = $e->getMessage();
@@ -101,6 +102,10 @@ if (isset($_GET['search'])) {
                             <input type="text" name="last_name" id="last_name">
                         </div>
                         <div class="form-group">
+                            <label for="contact_last_name">Contact Last name: </label>
+                            <input type="text" name="contact_last_name" id="contact_last_name">
+                        </div>
+                        <div class="form-group">
                             <label for="short_description">Short_description: </label>
                             <input type="text" name="short_description" id="short_description">
                         </div>
@@ -125,6 +130,8 @@ if (isset($_GET['search'])) {
                                 <tr>
                                     <th>Uniqname</th>
                                     <th>Full Name</th>
+                                    <th>Contact Uniqname</th>
+                                    <th>Contact Full Name</th>
                                     <th>Short Description</th>
                                     <th>Priority</th>
                                     <th>Full Description</th>
@@ -134,6 +141,8 @@ if (isset($_GET['search'])) {
                                     <tr>
                                         <td><?php echo $uniqname; ?></td>
                                         <td><?php echo $first_name . " " . $last_name; ?></td>
+                                        <td><?php echo $contact_uniqname; ?></td>
+                                        <td><?php echo $contact_first_name . " " . $contact_last_name; ?></td>
                                         <td class="scrollable"><?php echo $short_description; ?></td>
                                         <td><?php echo $priority; ?></td>
                                         <td class="scrollable"><div><?php echo $full_description; ?></div></td>
