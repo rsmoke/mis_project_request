@@ -13,7 +13,7 @@ if (isset($_GET['search'])) {
             $error = $stmt->error;
         } else {
             $stmt->bind_param('sss', $last_name, $short_description, $contact_last_name);
-            $last_name = '%' . $_GET['submitter_last_name'] . '%';
+            $last_name = '%' . $_GET['last_name'] . '%';
             $contact_last_name = '%' . $_GET['contact_last_name'] . '%';
             $short_description = '%' . $_GET['short_description'] . '%';
             $stmt->execute();
