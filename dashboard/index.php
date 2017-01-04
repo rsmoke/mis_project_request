@@ -98,7 +98,7 @@ if (isset($_GET['search'])) {
                     } ?>
                     <form class="form-inline" method="get" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                         <div class="form-group">
-                            <label for="last_name">Last name: </label>
+                            <label for="last_name">Submitter Last name: </label>
                             <input type="text" name="last_name" id="last_name">
                         </div>
                         <div class="form-group">
