@@ -76,7 +76,7 @@ require_once($_SERVER["DOCUMENT_ROOT"] . '/../Support/basicLib.php');
                         $from = htmlspecialchars($_POST['email']); // this is the sender's Email address
                         $first_name = htmlspecialchars($_POST['first_name']);
                         $last_name = htmlspecialchars($_POST['last_name']);
-                        $contact_uniqname =
+                        $contact_uniqname = htmlspecialchars($_POST['contact_uniqname']);
                         $contact_first_name = htmlspecialchars($_POST['contact_first_name']);
                         $contact_last_name = htmlspecialchars($_POST['contact_last_name']);
                         $contact_email = htmlspecialchars($_POST['contact_email']);
@@ -87,9 +87,12 @@ require_once($_SERVER["DOCUMENT_ROOT"] . '/../Support/basicLib.php');
                         $subject = $short_description . " | From: " . $first_name . " " . $last_name ." | Date: " . date("m/d/Y");
                         $subject2 = "Copy of your Project Request form submission";
                         $messageFooter = "-- Please do not reply to this email. If you requested a reply or more information is required, you will be contacted at the email address you provided. --";
-                        $message = "logged in as=> " . $login_name . "\n\nFull Name=> " . $first_name . " " . $last_name . "\n\nemail=> " . $from . "\n\nShort Description=> " . $short_description . "\n\nPriority=> " . $priority .  "\n\nFull Description:" . "\n\n" . $full_description;
+                        $addContactMessage = "";
+                        if ($login_name != $contact_uniqname){
+                            $addContactMessage = "\n\nThis project was submitted by proxy.\n\nProject Contact info:=>\n\nContact uniqname=> ". $contact_uniqname . "\n\nContact Full Name=> " . $contact_first_name . " " . $contact_last_name . "\n\nContact email=> " . $contact_email;
+                        }
+                        $message = "logged in as=> " . $login_name . "\n\nFull Name=> " . $first_name . " " . $last_name . "\n\nemail=> " . $from . $addContactMessage . "\n\nShort Description=> " . $short_description . "\n\nPriority=> " . $priority .  "\n\nFull Description:" . "\n\n" . $full_description;
                         $message2 = "Here is a copy of your project request " . $first_name . "\n\nShort Description=> " . $short_description . "\n\nPriority=> " . $priority . "\n\nFull Description:" . "\n\n" . $full_description;
-
 
                         $headers = "From:" . $from;
                         $headers2 = "From:" . $to;
