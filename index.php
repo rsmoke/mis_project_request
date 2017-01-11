@@ -83,7 +83,7 @@ require_once($_SERVER["DOCUMENT_ROOT"] . '/../Support/basicLib.php');
                         $contact_department = htmlspecialchars($_POST['contact_department']);
                         $short_description = htmlspecialchars($_POST['short_description']);
                         $full_description = htmlspecialchars($_POST['full_description']);
-                        $priority = htmlspecialchars($_POST['priority']);
+                        $priority = "";
                         $subject = $short_description . " | From: " . $first_name . " " . $last_name ." | Date: " . date("m/d/Y");
                         $subject2 = "Copy of your Project Request form submission";
                         $messageFooter = "-- Please do not reply to this email. If you requested a reply or more information is required, you will be contacted at the email address you provided. --";
@@ -91,8 +91,8 @@ require_once($_SERVER["DOCUMENT_ROOT"] . '/../Support/basicLib.php');
                         if ($login_name != $contact_uniqname){
                             $addContactMessage = "\n\nThis project was submitted by proxy.\n\nProject Contact info:=>\n\nContact uniqname=> ". $contact_uniqname . "\n\nContact Full Name=> " . $contact_first_name . " " . $contact_last_name . "\n\nContact email=> " . $contact_email;
                         }
-                        $message = "logged in as=> " . $login_name . "\n\nFull Name=> " . $first_name . " " . $last_name . "\n\nemail=> " . $from . $addContactMessage . "\n\nShort Description=> " . $short_description . "\n\nPriority=> " . $priority .  "\n\nFull Description:" . "\n\n" . $full_description;
-                        $message2 = "Here is a copy of your project request " . $first_name . "\n\nShort Description=> " . $short_description . "\n\nPriority=> " . $priority . "\n\nFull Description:" . "\n\n" . $full_description;
+                        $message = "logged in as=> " . $login_name . "\n\nFull Name=> " . $first_name . " " . $last_name . "\n\nemail=> " . $from . $addContactMessage . "\n\nShort Description=> " . $short_description . "\n\nFull Description:" . "\n\n" . $full_description;
+                        $message2 = "Here is a copy of your project request " . $first_name . "\n\nShort Description=> " . $short_description . "\n\nFull Description:" . "\n\n" . $full_description;
 
                         $headers = "From:" . $from;
                         $headers2 = "From:" . $to;
@@ -162,7 +162,7 @@ _SQL;
                         </div>
 
                         <?php $contact_username = ldapGleaner($login_name);?>
-                        <h5>Project Contact</h5>
+                        <h5>Project Contact</h5><small>Please change if different than above</small>
 
                         <form role="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" >
                             <input type="hidden" name="first_name" value="<?php echo $submitter_username[0] ?>">
@@ -193,7 +193,7 @@ _SQL;
                                     <label for="full_description">Detailed Description:</label><textarea rows="5" class="form-control" name="full_description" cols="30"></textarea>
                                 </div>
 
-                               <div class="form-group">
+<!--                                <div class="form-group">
                                 <label for="priority">Priority:</label>
                                 <select required class="form-control" name="priority">
                                     <option value="">--- Select ---</option>
@@ -201,7 +201,7 @@ _SQL;
                                     <option value="medium">Medium</option>
                                     <option value="low">Low</option>
                                 </select>
-				</div>
+				</div> -->
                                 <input type="submit" name="submit" value="Submit">
                         </form>
 
