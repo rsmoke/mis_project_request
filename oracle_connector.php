@@ -17,7 +17,7 @@ if (!$conn) {
     trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 }
 
-$mcomm_user_query = <<<_ORACLE 
+$mcomm_user_query = "
       SELECT  p.name, p.first_name, p.last_name, j.appt_dept_descr, j.job_indicator, j.appt_dept_grp, lower(u.campus_id) AS uniqname
       FROM
         m_hrdw1.personal_data p
@@ -32,8 +32,7 @@ $mcomm_user_query = <<<_ORACLE
       --  and j.appt_dept_grp = 'COLLEGE_OF_LSA'
         and  j.per_org = 'EMP' and j.poi_type = ' ' and  j.reg_temp = 'R'
       ORDER BY
-        j.job_indicator, j.appt_dept_descr
-_ORACLE;
+        j.job_indicator, j.appt_dept_descr";
 
 $stid = oci_parse($conn, $mcomm_user_query);
 oci_execute($stid);
