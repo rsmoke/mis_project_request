@@ -11,7 +11,7 @@
 //       )
 //     )
 
-$conn = oci_connect('rmt_lsaadhoc_datawhse1', 'lsa8pdq', 'dwprod.world');
+$conn = oci_connect('USERNAME', 'PASSWORD', 'dwprod.world');
 if (!$conn) {
     $e = oci_error();
     trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
